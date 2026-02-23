@@ -130,7 +130,7 @@ Pool Dashboard: https://kuzadesign-explorer.online/pools/
 ## Public Mining Connection
 
 To mine on the public pool, use the following settings:
-- **Pool URL:** `pool.kuzadesign-explorer.online:5555`
+- **Pool URL:** `144.91.66.97:5555`
 - **Wallet Address:** Your Kuzadesign address (e.g., `kuzadesign:qztc84...`)
 
 > [!IMPORTANT]
