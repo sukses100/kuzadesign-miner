@@ -1,0 +1,19 @@
+CMakeFiles/mining_core.dir/src/blake3/blake3.c.obj: \
+ /home/yoka/Public/kuzadesign/kuzadesign-miner/mining-core/src/blake3/blake3.c \
+ /home/yoka/Public/kuzadesign/kuzadesign-miner/mining-core/src/blake3/blake3_impl.h \
+ /usr/share/mingw-w64/include/assert.h \
+ /usr/share/mingw-w64/include/crtdefs.h \
+ /usr/share/mingw-w64/include/corecrt.h \
+ /usr/share/mingw-w64/include/_mingw.h \
+ /usr/share/mingw-w64/include/_mingw_mac.h \
+ /usr/share/mingw-w64/include/_mingw_secapi.h \
+ /usr/share/mingw-w64/include/vadefs.h \
+ /usr/share/mingw-w64/include/sdks/_mingw_ddk.h \
+ /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/stdbool.h \
+ /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/stddef.h \
+ /usr/share/mingw-w64/include/stddef.h \
+ /usr/lib/gcc/x86_64-w64-mingw32/10-posix/include/stdint.h \
+ /usr/share/mingw-w64/include/stdint.h \
+ /usr/share/mingw-w64/include/string.h \
+ /usr/share/mingw-w64/include/sec_api/string_s.h \
+ /home/yoka/Public/kuzadesign/kuzadesign-miner/mining-core/src/blake3/blake3.h

@@ -1,0 +1,3 @@
+/usr/bin/cmake -E rm -f CMakeFiles/kzd-miner.dir/objects.a
+/usr/bin/x86_64-w64-mingw32-ar qc CMakeFiles/kzd-miner.dir/objects.a @CMakeFiles/kzd-miner.dir/objects1.rsp
+/usr/bin/x86_64-w64-mingw32-g++-posix -O3 -DNDEBUG -Wl,--whole-archive CMakeFiles/kzd-miner.dir/objects.a -Wl,--no-whole-archive -o kzd-miner.exe -Wl,--out-implib,libkzd-miner.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles/kzd-miner.dir/linklibs.rsp

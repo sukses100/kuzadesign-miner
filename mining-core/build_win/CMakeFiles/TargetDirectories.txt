@@ -1,0 +1,7 @@
+/home/yoka/Public/kuzadesign/kuzadesign-miner/mining-core/build_win/CMakeFiles/mining_core.dir
+/home/yoka/Public/kuzadesign/kuzadesign-miner/mining-core/build_win/CMakeFiles/test_hash.dir
+/home/yoka/Public/kuzadesign/kuzadesign-miner/mining-core/build_win/CMakeFiles/test_stratum.dir
+/home/yoka/Public/kuzadesign/kuzadesign-miner/mining-core/build_win/CMakeFiles/test_miner.dir
+/home/yoka/Public/kuzadesign/kuzadesign-miner/mining-core/build_win/CMakeFiles/kzd-miner.dir
+/home/yoka/Public/kuzadesign/kuzadesign-miner/mining-core/build_win/CMakeFiles/edit_cache.dir
+/home/yoka/Public/kuzadesign/kuzadesign-miner/mining-core/build_win/CMakeFiles/rebuild_cache.dir

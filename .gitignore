@@ -1,0 +1,10 @@
+node_modules/
+dist/
+*.exe
+build_log.txt
+build_output.log
+*.log
+mining-core/build/
+mining-addon/build/
+.env
+.DS_Store
