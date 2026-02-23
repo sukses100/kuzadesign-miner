@@ -174,12 +174,9 @@ ipcMain.handle('start-mining', async (event, config) => {
                         miningStats.shares.accepted = parseInt(parts[2]);
                         miningStats.connected = true;
                     }
-                }
-
-                if (line.includes('Connected')) {
+                } else if (line.includes('Connected')) {
                     miningStats.connected = true;
-                }
-                if (line.includes('Found block')) {
+                } else if (line.includes('Found block')) {
                     miningStats.shares.accepted += 1;
                 }
 
