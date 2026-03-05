@@ -63,6 +63,16 @@ int main(int argc, char** argv) {
     client.login(user, "x");
 
     while (g_running) {
+        if (!client.isConnected()) {
+            std::cout << "\n[Pool] Connection lost. Reconnecting in 3s...\n";
+            std::this_thread::sleep_for(std::chrono::seconds(3));
+            if (client.connect(host, port)) {
+                client.subscribe("kzd-standalone/1.0");
+                client.login(user, "x");
+                std::cout << "[Pool] Reconnected successfully\n";
+            }
+        }
+
         client.process();
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
         

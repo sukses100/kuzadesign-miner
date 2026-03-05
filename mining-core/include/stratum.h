@@ -83,6 +83,7 @@ private:
     // Session data
     std::vector<uint8_t> extraNonce1;
     int extraNonce2Size = 4;
+    double currentDifficulty = 1.0;
     
     // Protocol handling
     void handleMessage(const std::string& line);

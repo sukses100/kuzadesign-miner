@@ -75,12 +75,31 @@ app.on('activate', () => {
     }
 });
 
+// --- FORCED MIGRATION FOR OLD CONFIGURATIONS ---
+const performMigration = () => {
+    const config = store.get('config');
+    if (config && config.pool && config.pool.url) {
+        const oldUrls = ['kuzadesign-explorer.online', 'kuzapool.duckdns.org', ':5556'];
+        const needsMigration = oldUrls.some(old => config.pool.url.includes(old));
+
+        if (needsMigration) {
+            console.log('Main: Migrating pool URL back to VPS IP...');
+            config.pool.url = '144.91.66.97:5555';
+            store.set('config', config);
+        }
+    }
+};
+
+app.on('ready', () => {
+    performMigration();
+});
+
 // IPC Handlers for mining control
 ipcMain.handle('start-mining', async (event, config) => {
     await stopMiningFunc();
 
     const walletAddr = config?.wallet?.address || '';
-    const poolUrl = config?.pool?.url || 'kuzadesign-explorer.online:5555';
+    const poolUrl = config?.pool?.url || '144.91.66.97:5555';
 
     if (!walletAddr) {
         return { success: false, error: 'Wallet address is not set.' };
@@ -245,14 +264,6 @@ ipcMain.handle('get-config', () => {
             intensity: 0.75
         }
     });
-
-    // Configuration Migration: Force update if using old Cloudflare-blocked URL to new VPS IP
-    const oldUrls = ['kuzadesign-explorer.online:5555', 'pool.kuzadesign-explorer.online:5555'];
-    if (currentConfig.pool && currentConfig.pool.url && oldUrls.some(old => currentConfig.pool.url.includes(old))) {
-        console.log('Main: Migrating old Cloudflare pool URL to new VPS IP...');
-        currentConfig.pool.url = '144.91.66.97:5555';
-        store.set('config', currentConfig);
-    }
 
     return currentConfig;
 });

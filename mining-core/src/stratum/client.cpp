@@ -184,7 +184,7 @@ bool Client::sendJson(cJSON* json) {
 }
 
 void Client::handleMessage(const std::string& line) {
-    // std::cout << "RECV: " << line << std::endl;
+    std::cout << "RECV: " << line << std::endl;
     
     cJSON* json = cJSON_Parse(line.c_str());
     if (!json) {
@@ -228,14 +228,30 @@ void Client::handleMessage(const std::string& line) {
             
             job.cleanJobs = true;
             
-            // Fake Target (Difficulty 1)
-            job.target = std::vector<uint8_t>(32, 0xFF); 
-            job.target[0] = 0; job.target[1] = 0; // Fake difficulty
+            // Generate Target from currentDifficulty 
+            // Kaspa target: 2^255 / difficulty => simplified for byte array
+            job.target = std::vector<uint8_t>(32, 0xFF);
+            double diff = currentDifficulty > 0 ? currentDifficulty : 1.0;
             
-            std::cout << "Received Job: " << job.jobId << std::endl;
+            // This is a naive conversion for basic CPU mining testing purposes.
+            // If difficulty > 1, we add more leading zeros.
+            // Kaspa base diff 1 is usually something like 0x00 0x00 0xFF ...
+            if (diff >= 1000) { job.target[0] = 0; job.target[1] = 0; job.target[2] = 0; job.target[3] = 0; job.target[4] = 0; job.target[5] = 0; }
+            else if (diff >= 100) { job.target[0] = 0; job.target[1] = 0; job.target[2] = 0; job.target[3] = 0; }
+            else if (diff >= 10) { job.target[0] = 0; job.target[1] = 0; job.target[2] = 0; }
+            else { job.target[0] = 0; job.target[1] = 0; job.target[2] = 0; } // Default moderate diff instead of fake diff 1
+            
+            std::cout << "Received Job: " << job.jobId << " (Diff: " << diff << ")" << std::endl;
             
             if (jobCallback) {
                 jobCallback(job);
+            }
+        }
+        else if (method == "mining.set_difficulty" && params && cJSON_GetArraySize(params) > 0) {
+            cJSON* diffParam = cJSON_GetArrayItem(params, 0);
+            if (cJSON_IsNumber(diffParam)) {
+                currentDifficulty = diffParam->valuedouble;
+                std::cout << "Pool set difficulty to: " << currentDifficulty << std::endl;
             }
         }
     }

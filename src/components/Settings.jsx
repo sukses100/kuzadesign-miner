@@ -35,7 +35,7 @@ export default function Settings({ config, onSave }) {
                         type="text"
                         value={formData.pool.url}
                         onChange={(e) => handleChange('pool', 'url', e.target.value)}
-                        placeholder="pool.example.com:5555"
+                        placeholder="144.91.66.97:5555"
                     />
                 </div>
                 <div className="form-group">

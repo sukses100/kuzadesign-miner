@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "description": "Desktop mining application for Kuzadesign cryptocurrency",
     "main": "electron.js",
-    "author": "Kuzadesign Team",
+    "author": "Kuzadesign Team <support@kuzadesign.com>",
     "license": "MIT",
     "scripts": {
         "start": "electron .",
@@ -44,7 +44,7 @@
         "appId": "com.kuzadesign.miner",
         "productName": "Kuzadesign Miner",
         "directories": {
-            "output": "dist"
+            "output": "release"
         },
         "files": [
             "dist/**/*",

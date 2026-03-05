@@ -1,4 +1,5 @@
 const net = require('net');
+const tls = require('tls');
 
 class StratumClient {
     constructor(host, port, wallet, workerName = 'generic') {
@@ -12,20 +13,28 @@ class StratumClient {
         this.onStatsCallback = null;
         this.requestId = 1;
         this.reconnectTimeout = null;
+        // SSL only when user explicitly passes 'stratum+ssl://' prefix — NOT based on port number
+        // Port 5555 is plain TCP for our pool (not SSL)
+        this.isSSL = false; // Set to true only for SSL pools (stratum+ssl://)
     }
 
     connect() {
         if (this.socket) this.socket.destroy();
 
-        console.log(`JS-Stratum: Connecting to ${this.host}:${this.port}...`);
-        this.socket = new net.Socket();
+        console.log(`JS-Stratum: Connecting to ${this.host}:${this.port} (SSL: ${this.isSSL})...`);
 
-        this.socket.connect(this.port, this.host, () => {
-            console.log('JS-Stratum: Connected to pool!');
-            this.connected = true;
-            this.subscribe();
-            this.authorize();
-        });
+        if (this.isSSL) {
+            this.socket = tls.connect(this.port, this.host, {
+                rejectUnauthorized: false
+            }, () => {
+                this.onConnect();
+            });
+        } else {
+            this.socket = new net.Socket();
+            this.socket.connect(this.port, this.host, () => {
+                this.onConnect();
+            });
+        }
 
         this.socket.on('data', (data) => {
             const lines = data.toString().split('\n');
@@ -48,9 +57,16 @@ class StratumClient {
         });
     }
 
+    onConnect() {
+        console.log('JS-Stratum: Connected to pool!');
+        this.connected = true;
+        this.subscribe();
+        this.authorize();
+    }
+
     scheduleReconnect() {
         if (this.reconnectTimeout) clearTimeout(this.reconnectTimeout);
-        this.reconnectTimeout = setTimeout(() => this.connect(), 5000);
+        this.reconnectTimeout = setTimeout(() => this.connect(), 5 * 1000);
     }
 
     send(method, params = []) {
@@ -74,7 +90,6 @@ class StratumClient {
     }
 
     submit(jobId, nonce, extraNonce2, ntime) {
-        // Bridge format: [worker, jobId, nonceHex]
         const nonceHex = nonce.toString(16).padStart(16, '0');
         this.send('mining.submit', [this.workerName, jobId, nonceHex]);
     }
@@ -94,10 +109,10 @@ class StratumClient {
                     });
                 }
             } else if (msg.result === true) {
-                console.log('JS-Stratum: Share accepted!');
+                console.log('JS-Stratum: Action/Login successful!');
                 if (this.onStatsCallback) this.onStatsCallback('accepted');
             } else if (msg.result === false || msg.error) {
-                console.log('JS-Stratum: Share rejected or error:', msg.error);
+                console.log('JS-Stratum: Pool rejected request:', msg.error);
                 if (this.onStatsCallback) this.onStatsCallback('rejected');
             }
         } catch (e) {

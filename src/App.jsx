@@ -63,7 +63,8 @@ function App() {
             <header className="app-header">
                 <div className="header-left">
                     <h1>⛏️ Kuzadesign Miner</h1>
-                    <span className="version">v1.0.0</span>
+                    <span class="version">v1.1.0</span>
+                    <span class="badge badge-ddns">DDNS Active</span>
                 </div>
                 <div className="header-right">
                     <div className={`status-badge ${isMining ? 'mining' : 'stopped'}`}>
@@ -115,7 +116,7 @@ function App() {
             </main>
 
             <footer className="app-footer">
-                <span>Pool: {config.pool.url}</span>
+                <span>Pool: <span style={{ color: '#a855f7' }}>{config.pool.url}</span></span>
                 <span>Wallet: {config.wallet.address || 'Not set'}</span>
             </footer>
         </div>
